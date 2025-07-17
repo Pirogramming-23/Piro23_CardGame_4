@@ -1,0 +1,100 @@
+/* 기본 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background: linear-gradient(#f89e68, #f6d284);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* 상단 네비게이션 */
+.navbar,
+.top-nav {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #532d6d;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.navbar a,
+.top-nav a {
+    color: #ffd369;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: bold;
+}
+
+.nav-left {
+    font-weight: bold;
+}
+.logout-btn {
+    background: none;
+    border: none;
+    color: #ffd369;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    text-decoration: underline;
+}
+
+
+/* 콘텐츠 영역 */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;  /* 중앙에서 위쪽으로 */
+    align-items: center;
+    text-align: center;
+    padding-top: 200px;  /* 이 값으로 아래로 내림 */
+}
+
+/* 버튼 스타일 */
+.main-btn,
+.button-group .btn {
+    background-color: #532d6d;
+    color: #ffd369;
+    padding: 12px 24px;
+    margin: 10px;
+    border-radius: 24px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.main-btn:hover,
+.button-group .btn:hover {
+    background-color: #6e3d8c;
+}
+
+/* 로그인 정보 텍스트 */
+.login-info {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* 하단 푸터 고정 */
+.footer,
+.bottom-nav {
+    width: 100%;
+    background-color: #532d6d;
+    color: white;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
