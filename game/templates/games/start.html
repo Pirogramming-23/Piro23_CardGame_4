@@ -1,4 +1,21 @@
 {% extends 'games/base.html' %}
 {% block content %}
-    <h2>🎮 여기는 start 페이지입니다 (임시)</h2>
+    <h2>게임 시작</h2>
+
+    <form method="post">
+    {% csrf_token %}
+
+    <h3>내가 고른 카드:</h3>
+    {% for value, label in form.card.field.choices %}
+        <input type="radio" id="card{{ value }}" name="{{ form.card.name }}" value="{{ value }}">
+        <label for="card{{ value }}">{{ value }}</label><br>
+    {% endfor %}
+
+    <br>
+    <label for="target_user">공격 대상:</label><br>
+    {{ form.target_user }}
+
+    <br><br>
+    <button type="submit">게임 생성</button>
+    </form>
 {% endblock %}
