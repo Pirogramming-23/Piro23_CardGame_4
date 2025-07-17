@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from django.contrib.auth import views as auth_views
+from game import views
 urlpatterns = [
     path('', include('game.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/login/', auth_views.LoginView.as_view(
+        template_name='games/login.html'  
+    ), name='login'), # main page 로그인/로그아웃 경로설정
+    path('signup/', views.signup, name='signup'), #main page 회원가입 경로설정
 ]
