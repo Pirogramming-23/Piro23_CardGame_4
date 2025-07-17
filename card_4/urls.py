@@ -21,8 +21,11 @@ from game import views
 urlpatterns = [
     path('', include('game.urls')),
     path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.LoginView.as_view(
-        template_name='games/login.html'  
-    ), name='login'), # main page 로그인/로그아웃 경로설정
-    path('signup/', views.signup, name='signup'), #main page 회원가입 경로설정
+    path('signup/', views.signup, name='signup'),  # 회원가입
+    path('accounts/login/', auth_views.LoginView.as_view(  
+        template_name='games/login.html',
+        redirect_authenticated_user=True,
+        next_page='main'
+    ), name='login'),
+    path('accounts/logout/', views.custom_logout, name='logout'), # 메인페이지 logout 경로설정
 ]
