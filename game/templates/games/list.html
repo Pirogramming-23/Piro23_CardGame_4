@@ -18,7 +18,7 @@
         </a>
         {% if game.status == '진행중' and game.attacker == user %}
         <span class="game-status attack-status">진행 중 (내가 공격)</span>
-        <form method="post" class="inline-form">
+        <form method="post" action="{% url 'game_detail' game.id %}" class="inline-form">
           {% csrf_token %}
           <button type="submit" class="game-info-btn">게임 취소</button>
         </form>
@@ -43,3 +43,4 @@
   </ul>
 </div>
 {% endblock %}
+
