@@ -23,7 +23,7 @@ class Game(models.Model):
     result = models.CharField(max_length=20, choices=[('승리', '승리'), ('패배', '패배'), ('무승부', '무승부')], null=True, blank=True)
     card_rule = models.CharField(max_length=10, choices=[('high', 'high'), ('low', 'low')])
     created_at = models.DateTimeField(auto_now_add=True)
-
+    bet_point = models.IntegerField(default=50)
     def __str__(self):
         try:
             attacker_name = str(self.attacker) if self.attacker else 'Unknown'
@@ -31,3 +31,7 @@ class Game(models.Model):
             return f"{attacker_name} VS {defender_name} ({self.status})"
         except Exception as e:
             raise Exception('Game 모델의 __str__에서 예외 발생') from e
+            
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    point = models.IntegerField(default=500)

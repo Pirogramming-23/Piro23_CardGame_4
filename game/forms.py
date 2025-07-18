@@ -3,9 +3,12 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+BET_CHOICES = [(50, '50'), (100, '100'), (150, '150'), (200, '200')]
+
 class GameStartForm(forms.Form):
     card = forms.ChoiceField(label='카드 선택', widget=forms.RadioSelect)
     opponent = forms.ModelChoiceField(queryset=User.objects.none(), label='상대 선택')
+    bet_point = forms.ChoiceField(choices=BET_CHOICES, label='베팅 점수')
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('current_user', None)
