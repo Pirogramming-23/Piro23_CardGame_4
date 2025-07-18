@@ -10,6 +10,14 @@ body {
     box-sizing: border-box;
 }
 
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
+}
+
 /* 상단 네비게이션 */
 .navbar,
 .top-nav {
@@ -44,10 +52,11 @@ body {
     padding: 0;
     margin-left: 20px;
     text-decoration: none;
+    transition: 0.3s;
 }
 
 .logout-btn:hover {
-    text-decoration: underline;
+    text-shadow: 1px 1px 1px #ffd369;
 }
 
 
@@ -143,7 +152,6 @@ body {
 
 /* 전적 리스트 스타일 */
 .history-list {
-    margin-top: 40px;
     width: 80%;
     max-width: 900px;
     background: #6e3d8c;

@@ -9,8 +9,7 @@
       <span>
         <a
           href="{% url 'game_detail' game.id %}"
-          style="color: #ffd369; font-weight: bold; text-decoration: underline"
->
+          style="color: #ffd369; font-weight: bold;">
           {{ game.attacker }} VS {{ game.defender }}
         </a>
         {% if game.status == '진행중' and game.attacker == user %}
