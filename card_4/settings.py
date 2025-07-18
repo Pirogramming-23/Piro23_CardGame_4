@@ -151,3 +151,5 @@ LOGOUT_REDIRECT_URL = '/'     # 로그아웃 성공 시 메인 페이지로 이�
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'game', 'static', 'media')
+
+AUTH_USER_MODEL = 'game.CustomUser'
