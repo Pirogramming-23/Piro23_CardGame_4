@@ -127,7 +127,7 @@ ul{
     color: var(--primary-accent);
     border-radius: 20px;
     box-shadow: 4px 8px 16px rgba(0,0,0,0.18);
-    padding: 40px 50px 30px 50px;
+    padding: 200px 50px 30px 50px;
     margin-top: 60px;
     display: flex;
     min-width: 340px;
@@ -382,7 +382,7 @@ ul{
     z-index: 1;
     /* 높이 고정: 카드가 위로 가도 아래 자리가 남음 */
     height: 120px;
-    width: 70px;s
+    width: 70px;
     transition: 0.3s;
   }
   

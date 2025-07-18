@@ -3,7 +3,7 @@
 <div class="start-card">
   <form method="post">
     {% csrf_token %}
-    <label>내가 고른 카드 :</label><br />
+    <label> 카드 선택 </label><br />
 
     <div class="card-select-group">
       {% for radio in form.card %}
