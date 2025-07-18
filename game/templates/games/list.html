@@ -1,4 +1,47 @@
-{% extends 'games/base.html' %}
-{% block content %}
-<h2>이건 list 페이지입니다.</h2>
+{% extends 'games/base.html' %} {% block content %}
+<div class="history-list">
+
+ <h2>게임 전적 리스트</h2>
+  <p>현재 플레이어: <strong>{{ user.username }}</strong></p>
+  <ul>
+    {% for game in games %}
+    <li>
+      <span>
+        <a
+          href="{% url 'game_detail' game.id %}"
+          style="color: #ffd369; font-weight: bold; text-decoration: underline"
+>
+          {{ game.attacker }} VS {{ game.defender }}
+        </a>
+        {% if game.status == '진행중' and game.attacker == user %}
+        <span style="display: inline-block; width: 180px; text-align: center">진행 중 (내가 공격)</span>
+
+        <form method="post" style="display: inline">
+          {% csrf_token %}
+          <button type="submit" class="game-info-btn">게임 취소</button>
+        </form>
+
+        
+        {% elif game.status == '반격대기' or game.status == '진행중' and game.defender == user %}
+        <span style="display: inline-block; width: 180px; text-align: center">반격 대기 (내가 수비)</span>
+        <form method="get" action="{% url 'game_detail' game.id %}" style="display: inline">
+          <button type="submit" class="game-info-btn">반격하기</button>
+        </form>
+
+        {% elif game.status == '종료' %}
+        <span style="display: inline-block; width: 180px; text-align: center">
+            결과: {% if user == game.attacker %} {% if game.result == '승리'%}👑승리👑
+            {% elif game.result == '패배' %}😢패배😢 {% else %}무승부{% endif %} 
+            {% else %} {% if game.result == '승리' %}😢패배😢{% elif game.result == '패배'%}👑승리👑{% else %}무승부{% endif %} {% endif %}
+        </span>
+        {% endif %}
+
+      </span>
+      <a href="{% url 'game_detail' game.id %}" class="game-info-btn">게임정보</a>
+    </li>
+    {% empty %}
+    <li>게임 기록이 없습니다.</li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}

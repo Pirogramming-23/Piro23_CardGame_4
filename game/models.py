@@ -1,28 +1,30 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+
+
+
+######## 테스트용 ########
+
+
 class Game(models.Model):
-    # 공격자 (게임을 생성한 유저)
-    attacker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games_started')
-    
-    # 수비자 (공격 대상 유저)
-    defender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games_received')
-    
-    # 공격자가 낸 숫자 카드 (1~10)
+    attacker = models.ForeignKey(User, related_name='attacker_games', on_delete=models.CASCADE)
+    defender = models.ForeignKey(User, related_name='defender_games', on_delete=models.CASCADE)
     attacker_card = models.IntegerField()
-    
-    # 수비자가 낸 숫자 카드 (반격 시 사용, 선택 전엔 null)
     defender_card = models.IntegerField(null=True, blank=True)
-    
-    # 게임 생성 시간
+    status = models.CharField(max_length=20, choices=[('진행중', '진행중'), ('반격대기', '반격대기'), ('종료', '종료')])
+    result = models.CharField(max_length=20, choices=[('승리', '승리'), ('패배', '패배'), ('무승부', '무승부')], null=True, blank=True)
+    card_rule = models.CharField(max_length=10, choices=[('high', 'high'), ('low', 'low')])
     created_at = models.DateTimeField(auto_now_add=True)
-    
-    # 반격 완료 여부 (False면 아직 반격 안 함)
-    is_completed = models.BooleanField(default=False)
-    
-    # 게임 결과 (win / lose / draw)
-    result = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        return f"{self.attacker} vs {self.defender}"
-
+        try:
+            attacker_name = str(self.attacker) if self.attacker else 'Unknown'
+            defender_name = str(self.defender) if self.defender else 'Unknown'
+            return f"{attacker_name} VS {defender_name} ({self.status})"
+        except Exception as e:
+            raise Exception('Game 모델의 __str__에서 예외 발생') from e
