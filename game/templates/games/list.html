@@ -30,12 +30,12 @@
 
         {% elif game.status == '종료' %}
         <span style="display: inline-block; width: 180px; text-align: center">
+
             결과: {% if user == game.attacker %} {% if game.result == '승리'%}👑승리👑
             {% elif game.result == '패배' %}😢패배😢 {% else %}무승부{% endif %} 
             {% else %} {% if game.result == '승리' %}😢패배😢{% elif game.result == '패배'%}👑승리👑{% else %}무승부{% endif %} {% endif %}
         </span>
         {% endif %}
-
       </span>
       <a href="{% url 'game_detail' game.id %}" class="game-info-btn">게임정보</a>
     </li>
