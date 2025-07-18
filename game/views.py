@@ -1,10 +1,8 @@
 import random
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.models import User
-
 from django.db.models import Sum, Q
 from django.http import Http404
 from django.views import View
@@ -14,6 +12,7 @@ from .models import Game
 from .forms import GameStartForm, CounterAttackForm
 
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -24,12 +23,12 @@ def main_page(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'games/signup.html', {'form': form})
 
 
@@ -209,5 +208,3 @@ class StartGameView(LoginRequiredMixin, View):
             defender_point_snapshot=opponent.profile.point
         )
         return redirect('game_list')
-        
-        return render(request, 'games/start.html', {'form': form})

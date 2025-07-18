@@ -17,7 +17,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
-    background: linear-gradient(var(--gradient-start), var(--gradient-end));
+    background: radial-gradient(circle,  
+        #F8F4E3 0%,      /* Ivory Light (상아색 불빛) */
+        #B0A890 25%,     /* Warm Gray transition tone */
+        #003d39 60%,     /* Deep Forest Green (어두운 초록) */
+        #0F1F17 100%     /* Almost Black Green */
+        );
+
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -37,8 +43,8 @@ ul{
 .top-nav {
     width: 100%;
     box-sizing: border-box;
-    background-color: var(--primary-bg);
-    color: var(--white);
+    background-color: rgba(16, 24, 53, 0.75); /* 진한 남색, 반투명 */
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -82,6 +88,7 @@ ul{
     justify-content: center;
     align-items: center;
     text-align: center;
+    position: relative;
 }
 
 /* 버튼 스타일 */
@@ -113,8 +120,8 @@ ul{
 .footer,
 .bottom-nav {
     width: 100%;
-    background-color: var(--primary-bg);
-    color: var(--white);
+    background-color: rgba(16, 26, 64, 0.85); /* 진한 남색, 반투명 */
+    color: white;
     text-align: center;
     padding: 12px 0;
     font-size: 0.9rem;
@@ -123,10 +130,8 @@ ul{
 
 /* 게임하기(공격 시작) 카드 스타일 */
 .start-card {
-    background: var(--primary-bg-active);
     color: var(--primary-accent);
     border-radius: 20px;
-    box-shadow: 4px 8px 16px rgba(0,0,0,0.18);
     padding: 200px 50px 30px 50px;
     margin-top: 60px;
     display: flex;
@@ -167,13 +172,17 @@ ul{
 
 /* 전적 리스트 스타일 */
 .history-list {
+    margin-top: 40px;
     width: 80%;
     max-width: 900px;
-    background: var(--primary-bg-active);
+    background: #6e3d8c;
     border-radius: 18px;
     padding: 30px 40px 30px 40px;
-    color: var(--primary-accent);
+    color: #ffd369;
     box-shadow: 4px 8px 16px rgba(0,0,0,0.13);
+    /* 스크롤 영역 높이 제한 */
+    max-height: 500px;
+    overflow: hidden;
 }
 .history-list h2 {
     color: var(--primary-accent);
@@ -182,6 +191,9 @@ ul{
 .history-list ul {
     list-style: none;
     padding: 0;
+    /* ul에 스크롤 적용 */
+    max-height: 400px;
+    overflow-y: auto;
 }
 .history-list li {
     font-size: 1.15rem;
@@ -392,14 +404,14 @@ ul{
   .card-shape {
     width: 70px;
     height: 100px;
-    background: white;
+    background: #f9f6ef;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.13);
+    box-shadow: 0 4px 16px rgba(60,40,10,0.18), 0 1.5px 0 #e2c08d inset;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: #532d6d;
+    color: #000d63;
     margin-top: 6px;
     transition:
     transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
@@ -413,10 +425,17 @@ ul{
   /* 호버 효과 */
   .card-radio-label:hover .card-shape {
     transform: translateY(-18px) scale(1.12);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.18);
-    border-color: #f6b26b;
-    z-index: 3;
-  }
+    box-shadow:
+    0 12px 24px rgba(0,0,0,0.18),
+    0 0 32px 8px rgba(33, 150, 243, 0.45),   /* 푸른 glow */
+    0 0 64px 16px rgba(33, 150, 243, 0.18);  /* 더 넓은 glow */
+  border-color: #f6b26b;
+  z-index: 3;
+  transition:
+    box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.3s cubic-bezier(.4,2,.6,1),
+    border-color 0.3s;
+}
   
   /* 선택(checked)된 카드: 한 줄 위 중앙으로 이동 */
   .card-radio-label input[type="radio"]:checked + .card-shape {
@@ -436,6 +455,13 @@ ul{
     /* transition은 이미 상위에 있음 */
   }
 
+  .start-defender-group{
+    z-index: 999;
+    position: absolute;
+    bottom: 50px;
+    right: 40px;
+    
+  }
   .modal-overlay {
   position: fixed;
   top: 0;
@@ -472,4 +498,3 @@ ul{
 .modal-content button:hover {
   background-color: #a12ecf;
 }
-
