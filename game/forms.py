@@ -1,5 +1,7 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 BET_CHOICES = [(50, '50'), (100, '100'), (150, '150'), (200, '200')]
 
@@ -19,7 +21,7 @@ class GameStartForm(forms.Form):
             card_choices = sample(range(1, 11), 5)
         self.fields['card'].choices = [(c, str(c)) for c in card_choices]
 
-        # 유저 설정
+        # 상대 유저 목록 설정
         if user:
             self.fields['opponent'].queryset = User.objects.exclude(id=user.id)
         else:

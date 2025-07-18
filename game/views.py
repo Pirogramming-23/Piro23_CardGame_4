@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+
 from django.db.models import Sum, Q
 from django.http import Http404
 from django.views import View
@@ -11,6 +12,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Game
 from .forms import GameStartForm, CounterAttackForm
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 
 
 def main_page(request):
