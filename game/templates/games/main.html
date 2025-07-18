@@ -5,7 +5,20 @@
     <h1 id="main-title">Piro Card Game</h1>
 
     {% if user.is_authenticated %}
-        <p class="login-info"><strong>{{ user.username }}</strong>님이 로그인 중</p>
+        <p class="login-info">
+            <strong id="username">{{ user.username }}</strong>님이 로그인 중<span id="dots">.</span>
+        </p>
+
+        <script>
+        const dots = document.getElementById('dots');
+        const dotStates = ['.', '..', '...'];
+        let idx = 0;
+
+        setInterval(() => {
+            dots.textContent = dotStates[idx];
+            idx = (idx + 1) % dotStates.length;
+        }, 500); 
+        </script>
         <div class="button-group">
             <a href="{% url 'start_game' %}" class="btn">start</a>
             <a href="{% url 'game_list' %}" class="btn">list</a>
