@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from game import views
+
 urlpatterns = [
     path('', include('game.urls')),
     path('admin/', admin.site.urls),
