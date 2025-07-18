@@ -206,5 +206,3 @@ class StartGameView(LoginRequiredMixin, View):
             bet_point=bet_point
         )
         return redirect('game_list')
-        
-        return render(request, 'games/start.html', {'form': form})
