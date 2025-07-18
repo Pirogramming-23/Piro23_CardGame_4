@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-# 커스텀 유저 모델
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
-
+    profile_image = models.ImageField(
+        upload_to='profile_images/',
+        blank=True,
+        null=True,
+        default='logo.png'  # media/logo.png 아님!
+    )
     def __str__(self):
         return self.username
 
