@@ -1,12 +1,12 @@
 from django.urls import path
 from . import views
- #######test#####
 from django.contrib.auth import views as auth_views
+from .views import StartGameView
 
 urlpatterns = [
  #######test#####
     path('', views.main_page, name='main'), #기본 루트 연결
-    path('start/', views.start_game, name='start_game'),     # 구현 예정
+    path('start/', StartGameView.as_view(), name='start_game'),     # 구현 예정
     path('list/', views.game_list, name='game_list'),        # 구현 예정
     path('detail/<int:pk>/', views.game_detail, name='game_detail'), # 게임 상세
     path('ranking/', views.ranking_page, name='ranking'),    # 구현 예정
