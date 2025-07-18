@@ -7,6 +7,9 @@
     {% for game in games %}
     <li>
       <span>
+        <span style="margin-right: 8px; color: #ffd369; font-size: 0.95em;">
+          {{ game.created_at|time:"H:i" }}
+        </span>
         <a
           href="{% url 'game_detail' game.id %}"
           style="color: #ffd369; font-weight: bold; text-decoration: underline"
