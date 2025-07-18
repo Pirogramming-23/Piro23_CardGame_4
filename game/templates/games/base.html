@@ -10,7 +10,9 @@
 <body>
     <!-- 네비게이션 -->
     <nav class="top-nav">
-        <div class="nav-left">Pirogrammer Card Game</div>
+        <div class="nav-left">
+            <a href="/" style="text-decoration: none; color: inherit;">Pirogrammer Card Game</a>
+        </div>
         <div class="nav-right">
             {% if user.is_authenticated %}
                 <a href="{% url 'start_game' %}">게임하기</a>
