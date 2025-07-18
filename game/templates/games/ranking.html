@@ -16,11 +16,13 @@
       <div class="ranking-bar-rank">{{ forloop.counter }}</div>
     </div>
     {% endfor %}
-  </div>
-  <a href="{% url 'game_list' %}" class="game-info-btn" style="margin-top: 18px"
-    >전적 목록</a
-  >
-</div>
+    </div>
+      <div class="record-button-container">
+        <a href="{% url 'game_list' %}" class="game-info-btn record-button">
+          전적 목록
+        </a>
+      </div>
+    </div>
 <style>
   .ranking-bar-container {
     display: flex;
@@ -64,5 +66,24 @@
     justify-content: center;
     box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.08);
   }
+  .record-button-container {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.record-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #31a635;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.record-button:hover {
+  background-color: #27992c;
+}
 </style>
 {% endblock %}
