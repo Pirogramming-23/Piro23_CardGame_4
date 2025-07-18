@@ -2,11 +2,17 @@
 <div class="start-card">
   <form method="post">
     {% csrf_token %}
+
     <label>내가 고른 카드 :</label><br />
     {{ form.card }}
+
     <label class="start-defender-label">Defender:</label>
     {{ form.opponent }}
     <br />
+    
+     <label class="start-bet-label">베팅 포인트 선택:</label><br />
+    {{ form.bet_point }}<br /><br />
+
     <button type="submit">Attack!</button>
   </form>
 </div>
