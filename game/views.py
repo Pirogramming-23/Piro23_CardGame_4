@@ -176,7 +176,12 @@ class StartGameView(LoginRequiredMixin, View):
         random_cards = random.sample(range(1, 11), 5)
         request.session['random_cards'] = random_cards
         form = GameStartForm(current_user=request.user, card_choices=random_cards)
-        return render(request, 'games/start.html', {'form': form})
+        my_point = request.user.profile.point  #현재 유저 포인트 가져오기
+
+        return render(request, 'games/start.html', {
+            'form': form,
+            'my_point': my_point, 
+        })
 
     def post(self, request):
         random_cards = request.session.get('random_cards', [])
