@@ -4,15 +4,7 @@
     {% csrf_token %}
     <label>내가 고른 카드 :</label><br />
     {{ form.card }}
-    <label
-      style="
-        margin-top: 18px;
-        display: block;
-        color: #ffd369;
-        font-size: 1.1rem;
-      "
-      >Defender:</label
-    >
+    <label class="start-defender-label">Defender:</label>
     {{ form.opponent }}
     <br />
     <button type="submit">Attack!</button>
