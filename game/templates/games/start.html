@@ -5,23 +5,47 @@
     {% csrf_token %}
     <label> 카드 선택 </label><br />
 
-    <div class="card-select-group">
-      {% for radio in form.card %}
-        <label class="card-radio-label">
-          {{ radio.tag }}
-          <div class="card-shape">{{ radio.choice_label }}</div>
-        </label>
-      {% endfor %}
-    </div>
+    <p><strong>내 현재 포인트:</strong> {{ my_point }} pt</p>
+
+    <label> 카드 선택 </label><br />
+      <div class="card-select-group">
+        {% for radio in form.card %}
+          <label class="card-radio-label">
+            {{ radio.tag }}
+            <div class="card-shape">{{ radio.choice_label }}</div>
+          </label>
+        {% endfor %}
+      </div>
 
     <label class="start-defender-label">Defender:</label>
     {{ form.opponent }}
     <br />
-    
+
      <label class="start-bet-label">베팅 포인트 선택:</label><br />
     {{ form.bet_point }}<br /><br />
 
     <button type="submit">Attack!</button>
   </form>
 </div>
+
+{% if form.non_field_errors %}
+  <div class="modal-overlay" id="errorModal">
+    <div class="modal-content">
+      {% for error in form.non_field_errors %}
+        <p>{{ error }}</p>
+      {% endfor %}
+      <button onclick="closeModal()">확인</button>
+    </div>
+  </div>
+
+<script>
+  function closeModal() {
+    const modal = document.getElementById("errorModal");
+    if (modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+
+{% endif %}
 {% endblock %}

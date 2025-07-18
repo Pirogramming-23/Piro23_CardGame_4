@@ -24,6 +24,9 @@ class Game(models.Model):
     card_rule = models.CharField(max_length=10, choices=[('high', 'high'), ('low', 'low')])
     created_at = models.DateTimeField(auto_now_add=True)
     bet_point = models.IntegerField(default=50)
+    attacker_point_snapshot = models.IntegerField(null=True, blank=True)
+    defender_point_snapshot = models.IntegerField(null=True, blank=True)
+
     def __str__(self):
         try:
             attacker_name = str(self.attacker) if self.attacker else 'Unknown'
