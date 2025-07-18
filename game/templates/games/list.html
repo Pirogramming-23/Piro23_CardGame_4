@@ -10,12 +10,11 @@
         <span class="game-time">
           {{ game.created_at|time:"H:i" }}
         </span>
-        <a
-          href="{% url 'game_detail' game.id %}"
+        <span
           class="game-link"
         >
           {{ game.attacker }} VS {{ game.defender }}
-        </a>
+        </span>
         {% if game.status == '진행중' and game.attacker == user %}
         <span class="game-status attack-status">진행 중 (내가 공격)</span>
         <form method="post" action="{% url 'game_detail' game.id %}" class="inline-form">
