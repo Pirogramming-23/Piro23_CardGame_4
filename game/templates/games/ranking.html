@@ -5,10 +5,7 @@
   <h2 class="ranking-title">Piro 명예의 전당</h2>
   <div class="ranking-bar-container">
     {% for item in ranking|slice:':3' %}
-    <div
-      class="ranking-bar"
-      style="height:{{ item.score|default:0|add:120 }}px;"
-    >
+    <div class="ranking-bar" style="height:{{ item.height }}px;">
       <div class="ranking-bar-label">
         {{ item.user.username }}<br /><span class="ranking-bar-score">{{ item.score }}</span>
       </div>
@@ -20,7 +17,6 @@
     <div class="ranking-btn-wrapper">
       <a href="{% url 'game_list' %}" class="ranking-btn">전적 목록</a>
     </div>
-    
 </div>
 
 {% endblock %}
