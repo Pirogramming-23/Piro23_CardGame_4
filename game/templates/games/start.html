@@ -14,10 +14,13 @@
       {% endfor %}
     </div>
 
-    <label class="start-defender-label">Defender:</label>
-    {{ form.opponent }}
-    <br />
-    <button type="submit">Attack!</button>
+    <div class="start-defender-group">
+      <label class="start-defender-label">Defender:</label>
+      {{ form.opponent }}
+      <br/>
+      <button type="submit">Attack!</button>
+    </div>
+
   </form>
 </div>
 {% endblock %}
