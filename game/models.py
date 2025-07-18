@@ -9,7 +9,6 @@ class CustomUser(AbstractUser):
         null=True,
         default='logo.png'  # media/logo.png 아님!
     )
-
     def __str__(self):
         return self.username
 
