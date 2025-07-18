@@ -129,18 +129,24 @@ def game_detail(request, pk):
 def ranking_page(request):
     users = User.objects.all()
     ranking = []
+
     for user in users:
-        # 공격자 승리(공격자 입장에서만 '승리'로 저장됨)
         attacker_win = Game.objects.filter(attacker=user, result='승리').count()
-        # 수비자 승리(수비자는 공격자가 '패배'로 저장된 게임에서 승리)
         defender_win = Game.objects.filter(defender=user, result='패배').count()
-        # 공격자 패배(공격자 입장에서만 '패배'로 저장됨)
         attacker_lose = Game.objects.filter(attacker=user, result='패배').count()
-        # 수비자 패배(수비자는 공격자가 '승리'로 저장된 게임에서 패배)
         defender_lose = Game.objects.filter(defender=user, result='승리').count()
         total = (attacker_win + defender_win) - (attacker_lose + defender_lose)
         ranking.append({'user': user, 'score': total})
+
+    # 정렬
     ranking = sorted(ranking, key=lambda x: x['score'], reverse=True)
+
+    # 최대 점수 기준으로 height 설정 (최소 80px, 최대 220px)
+    max_score = ranking[0]['score'] if ranking else 1
+    for r in ranking:
+        normalized = r['score'] / max_score if max_score else 0
+        r['height'] = int(80 + normalized * 140)  # 최소 80, 최대 220
+
     return render(request, 'games/ranking.html', {'ranking': ranking})
 
 def custom_logout(request):
