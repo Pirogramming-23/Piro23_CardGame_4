@@ -4,7 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.http import Http404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -130,15 +130,18 @@ def ranking_page(request):
     users = User.objects.all()
     ranking = []
     for user in users:
-        win_score = Game.objects.filter(attacker=user, result='승리').aggregate(s=Sum('attacker_card'))['s'] or 0
-        lose_score = Game.objects.filter(attacker=user, result='패배').aggregate(s=Sum('attacker_card'))['s'] or 0
-        win_score += Game.objects.filter(defender=user, result='승리').aggregate(s=Sum('defender_card'))['s'] or 0
-        lose_score += Game.objects.filter(defender=user, result='패배').aggregate(s=Sum('defender_card'))['s'] or 0
-        total = win_score - lose_score
+        # 공격자 승리(공격자 입장에서만 '승리'로 저장됨)
+        attacker_win = Game.objects.filter(attacker=user, result='승리').count()
+        # 수비자 승리(수비자는 공격자가 '패배'로 저장된 게임에서 승리)
+        defender_win = Game.objects.filter(defender=user, result='패배').count()
+        # 공격자 패배(공격자 입장에서만 '패배'로 저장됨)
+        attacker_lose = Game.objects.filter(attacker=user, result='패배').count()
+        # 수비자 패배(수비자는 공격자가 '승리'로 저장된 게임에서 패배)
+        defender_lose = Game.objects.filter(defender=user, result='승리').count()
+        total = (attacker_win + defender_win) - (attacker_lose + defender_lose)
         ranking.append({'user': user, 'score': total})
     ranking = sorted(ranking, key=lambda x: x['score'], reverse=True)
     return render(request, 'games/ranking.html', {'ranking': ranking})
-
 
 def custom_logout(request):
     logout(request)
