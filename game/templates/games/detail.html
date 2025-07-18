@@ -1,5 +1,5 @@
 {% extends 'games/base.html' %} {% block content %}
-<div class="start-card">
+<div class="start-card-detail">
   {% if game.status == '진행중' and user == game.attacker %}
   <div class="detail-status-msg">
     진행중입니다. 상대가 아직 반격하지 않았습니다.

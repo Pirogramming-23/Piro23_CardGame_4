@@ -12,18 +12,24 @@
 
 /* 기본 설정 */
 
+#main-title{
+    font-family: "Merriweather", system-ui;
+    color: white;
+    font-size: 5rem;
+    font: bold;
+}
 
 body {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
     background: radial-gradient(circle,  
-        #F8F4E3 0%,      /* Ivory Light (상아색 불빛) */
-        #B0A890 25%,     /* Warm Gray transition tone */
-        #003d39 60%,     /* Deep Forest Green (어두운 초록) */
-        #0F1F17 100%     /* Almost Black Green */
-        );
-
+        rgba(100, 100, 100, 1) 0%,      
+        rgba(75, 75, 75, 1) 25%,    
+        rgba(50, 50, 50, 1) 50%,
+        rgba(25, 25, 25, 1) 75%,    
+        rgba(0, 0, 0, 1) 100% 
+        ); 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -43,17 +49,18 @@ ul{
 .top-nav {
     width: 100%;
     box-sizing: border-box;
-    background-color: rgba(16, 24, 53, 0.75); /* 진한 남색, 반투명 */
+    background-color: rgba(49, 49, 49, 1);
     color: white;
     display: flex;
     justify-content: space-between;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 1);
     align-items: center;
     padding: 15px 30px;
 }
 
 .navbar a,
 .top-nav a {
-    color: var(--primary-accent);
+    color: white;
     text-decoration: none;
     margin-left: 20px;
     font-weight: bold;
@@ -94,8 +101,8 @@ ul{
 /* 버튼 스타일 */
 .main-btn,
 .button-group .btn {
-    background-color: var(--primary-bg);
-    color: var(--primary-accent);
+    background-color: var(--primary-accent);
+    color: var(--primary-bg);
     padding: 12px 24px;
     margin: 10px;
     border-radius: 24px;
@@ -107,7 +114,7 @@ ul{
 
 .main-btn:hover,
 .button-group .btn:hover {
-    background-color: var(--primary-bg-active);
+    background-color: white;
 }
 
 /* 로그인 정보 텍스트 */
@@ -120,9 +127,10 @@ ul{
 .footer,
 .bottom-nav {
     width: 100%;
-    background-color: rgba(16, 26, 64, 0.85); /* 진한 남색, 반투명 */
+    background-color: rgba(49, 49, 49, 1); 
     color: white;
     text-align: center;
+    box-shadow: 0 -1px 1px rgba(0, 0, 0, 1);
     padding: 12px 0;
     font-size: 0.9rem;
     box-sizing: border-box;
@@ -132,7 +140,7 @@ ul{
 .start-card {
     color: var(--primary-accent);
     border-radius: 20px;
-    padding: 200px 50px 30px 50px;
+    padding: 30px 50px 30px 50px;
     margin-top: 60px;
     display: flex;
     min-width: 340px;
@@ -140,6 +148,7 @@ ul{
     justify-content: center;
     align-items: center;
 }
+
 .start-card label {
     font-weight: bold;
     font-size: 1.2rem;
@@ -175,17 +184,17 @@ ul{
     margin-top: 40px;
     width: 80%;
     max-width: 900px;
-    background: #6e3d8c;
+    background: #373737;
     border-radius: 18px;
     padding: 30px 40px 30px 40px;
-    color: #ffd369;
-    box-shadow: 4px 8px 16px rgba(0,0,0,0.13);
+    color: white;
+    box-shadow: 0 0 16px rgba(255, 255, 255,0.5);
     /* 스크롤 영역 높이 제한 */
     max-height: 500px;
     overflow: hidden;
 }
 .history-list h2 {
-    color: var(--primary-accent);
+    color: white;
     margin-bottom: 18px;
 }
 .history-list ul {
@@ -201,9 +210,16 @@ ul{
     padding: 10px 0;
     border-bottom: 1px solid #ffd36933;
     display: flex;
+    flex-flow: row;
     align-items: center;
     justify-content: space-between;
 }
+
+.history-list li > span{
+    display: flex;
+    flex-flow: row;
+}
+
 .history-list li:last-child {
     border-bottom: none;
 }
@@ -285,10 +301,12 @@ ul{
 .ranking-card {
     min-width: 420px;
     text-align: center;
+    background-color: #373737;
+    box-shadow: 0 0 16px rgba(255, 255, 255,0.5);
 }
 .ranking-title {
     margin-bottom: 18px;
-    color: var(--primary-accent);
+    color: white;
 }
 .ranking-bar-container {
     display: flex;
@@ -377,10 +395,9 @@ ul{
 }
 .card-select-group {
     display: flex;
-    gap: 18px;
+    gap: 30px;
     justify-content: center;
     margin: 24px 0;
-    position: relative;
     min-height: 140px; /* 위로 이동할 공간 확보 */
   }
   
@@ -391,9 +408,6 @@ ul{
     align-items: center;
     position: relative;
     z-index: 1;
-    /* 높이 고정: 카드가 위로 가도 아래 자리가 남음 */
-    height: 120px;
-    width: 70px;
     transition: 0.3s;
   }
   
@@ -402,15 +416,15 @@ ul{
   }
   
   .card-shape {
-    width: 70px;
-    height: 100px;
+    width: 140px;
+    height: 200px;
     background: #f9f6ef;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(60,40,10,0.18), 0 1.5px 0 #e2c08d inset;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: 5rem;
     color: #000d63;
     margin-top: 6px;
     transition:
@@ -427,31 +441,31 @@ ul{
     transform: translateY(-18px) scale(1.12);
     box-shadow:
     0 12px 24px rgba(0,0,0,0.18),
-    0 0 32px 8px rgba(33, 150, 243, 0.45),   /* 푸른 glow */
+    0 0 32px 8px rgba(0, 0, 0, 0.45),   /* 푸른 glow */
     0 0 64px 16px rgba(33, 150, 243, 0.18);  /* 더 넓은 glow */
-  border-color: #f6b26b;
-  z-index: 3;
-  transition:
-    box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.3s cubic-bezier(.4,2,.6,1),
-    border-color 0.3s;
+    border-color: #f6b26b;
+    z-index: 3;
+    transition:
+        box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.3s cubic-bezier(.4,2,.6,1),
+        border-color 0.3s;
 }
   
   /* 선택(checked)된 카드: 한 줄 위 중앙으로 이동 */
   .card-radio-label input[type="radio"]:checked + .card-shape {
     position: absolute;
     left: 50%;
-    top: -200px;
+    top: -260px;
     transform: translateX(-50%) scale(1.18);
     transition:
     transform 1s ease,
     box-shadow 0.4s,
     border-color 0.4s;
     z-index: 10;
-    box-shadow: 0 16px 32px rgba(0,0,0,0.22);
     border-color: #532d6d;
-    background: #fff3b0;
+    background: #ffffff;
     color: #532d6d;
+    box-shadow: 0 0 45px rgba(255, 255, 255, 0.5);
     /* transition은 이미 상위에 있음 */
   }
 
@@ -460,7 +474,9 @@ ul{
     position: absolute;
     bottom: 50px;
     right: 40px;
-    
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
   }
   .modal-overlay {
   position: fixed;
@@ -497,4 +513,102 @@ ul{
 
 .modal-content button:hover {
   background-color: #a12ecf;
+}
+
+#signup-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    min-width: 400px;
+    margin: 100px auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#signup-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.error {
+    color: red;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    background-color: #2b2b2b;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button[type="submit"]:hover {
+    background-color: #797979;
+}
+
+.nav-right{
+    display: flex;
+    flex-flow: row;
+}
+
+.nav-right > a{
+    text-align: center;
+    line-height: 46.67px;
+}
+
+.start-card-detail{
+    min-width: 420px;
+    text-align: center;
+    background-color: #373737;
+    box-shadow: 0 0 16px rgba(255, 255, 255,0.5);
+    padding: 30px;
+    display: flex;
+    flex-flow: column;
+    color: white;
+    gap: 10px;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-card-detail > a{
+    background-color: var(--primary-accent);
+    color: var(--primary-bg);
+    width: 60px;
+    padding: 10px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.start-card-detail > a:hover{
+    background-color: var(--primary-bg-hover);
+    color: var(--primary-bg-active);
 }
