@@ -1,4 +1,8 @@
 from django.apps import AppConfig
 
-def ready(self):
-    import games.signals
+class GamesConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'game' 
+
+    def ready(self):
+        import game.signals

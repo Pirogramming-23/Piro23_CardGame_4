@@ -44,6 +44,8 @@ class Game(models.Model):
     ])
     created_at = models.DateTimeField(auto_now_add=True)
     bet_point = models.IntegerField(default=50)
+    attacker_point_snapshot = models.IntegerField(null=True, blank=True)
+    defender_point_snapshot = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         try:
