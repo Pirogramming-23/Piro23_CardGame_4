@@ -1,9 +1,19 @@
-{% extends 'games/base.html' %} {% block content %}
+{% extends 'games/base.html' %}
+{% block content %}
 <div class="start-card">
   <form method="post">
     {% csrf_token %}
-    <label>내가 고른 카드 :</label><br />
-    {{ form.card }}
+    <label> 카드 선택 </label><br />
+
+    <div class="card-select-group">
+      {% for radio in form.card %}
+        <label class="card-radio-label">
+          {{ radio.tag }}
+          <div class="card-shape">{{ radio.choice_label }}</div>
+        </label>
+      {% endfor %}
+    </div>
+
     <label class="start-defender-label">Defender:</label>
     {{ form.opponent }}
     <br />
