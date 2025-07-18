@@ -1,50 +1,49 @@
 {% extends 'games/base.html' %} {% block content %}
 <div class="start-card">
   {% if game.status == '진행중' and user == game.attacker %}
-  <div
-    style="
-      text-align: center;
-      margin-bottom: 18px;
-      font-size: 1.2rem;
-      color: #ffd369;
-    "
-  >
+  <div class="detail-status-msg">
     진행중입니다. 상대가 아직 반격하지 않았습니다.
   </div>
   <form method="post">
     {% csrf_token %}
-    <button type="submit" class="game-info-btn" style="margin-top: 10px">
+    <button type="submit" class="game-info-btn detail-cancel-btn">
       게임 취소
     </button>
   </form>
   {% elif game.status == '반격대기' and user == game.defender %}
   <form method="post">
     {% csrf_token %}
-    <label style="font-size: 1.2rem">반격할 카드 :</label><br />
-    {{ counter_form.card }}
+    <label class="detail-counter-label">반격할 카드 :</label><br />
+    <div class="card-select-group">
+      {% for radio in counter_form.card %}
+      <label class="card-radio-label">
+        {{ radio.tag }}
+        <div class="card-shape">{{ radio.choice_label }}</div>
+      </label>
+      {% endfor %}
+    </div>
     <button type="submit">CounterAttack</button>
   </form>
   {% else %}
-  <h3 style="margin-bottom: 10px">
-    {{ game.attacker }} VS {{ game.defender }}
-  </h3>
-  <div style="margin-bottom: 8px; font-size: 1.1rem">
+  <h3 class="detail-vs-title">{{ game.attacker }} VS {{ game.defender }}</h3>
+  <div class="detail-rule-msg">
     {% if game.card_rule == 'high' %} 숫자가 큰 사람이 이깁니다.<br />
     {% else %} 숫자가 작은 사람이 이깁니다.<br />
     {% endif %}
   </div>
-  <div style="margin-bottom: 8px">
+  <div class="detail-card-info">
     <b>{{ game.attacker }}</b>: {{ game.attacker_card }}<br />
     <b>{{ game.defender }}</b>: {{ game.defender_card|default:'미제출' }}
   </div>
   {% if game.status == '종료' %}
-  <div style="font-size: 1.2rem; margin-bottom: 8px">
+  <div class="detail-result-msg">
     결과: {% if user == game.attacker %} {% if game.result == '승리'%}👑승리👑
     {% elif game.result == '패배' %}😢패배😢 {% else %}무승부{% endif %} 
     {% else %} {% if game.result == '승리' %}😢패배😢{% elif game.result == '패배'%}👑승리👑{% else %}무승부{% endif %} {% endif %}
   </div>
-  <div style="margin-bottom: 10px">
-    점수: {{ game.attacker_card|add:game.defender_card }}
+  <div class="detail-score-msg">
+    ({{ game.attacker.username }}: 💰{{ attacker_point }} /
+   {{ game.defender.username }}: 💰{{ defender_point }})
   </div>
   {% endif %}
   <a href="{% url 'game_list' %}" class="game-info-btn">전적목록</a>

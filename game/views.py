@@ -3,14 +3,19 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.db.models import Sum
+# from django.contrib.auth.models import User
+
+from django.db.models import Sum, Q
 from django.http import Http404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Game
 from .forms import GameStartForm, CounterAttackForm
+
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 
 
 def main_page(request):
@@ -35,6 +40,50 @@ def game_list(request):
     games = games.order_by('-created_at')
     return render(request, 'games/list.html', {'games': games, 'user': user})
 
+
+def process_counter_attack(game, defender_card):
+    # 이미 반격한 게임 예외처리
+    if game.status != '반격대기':
+        raise Exception('이미 반격이 완료된 게임입니다.')
+
+    # 결과 판정
+    if game.card_rule == 'high':
+        if game.attacker_card > defender_card:
+            result = '승리'
+        elif game.attacker_card < defender_card:
+            result = '패배'
+        else:
+            result = '무승부'
+    else:  # low
+        if game.attacker_card < defender_card:
+            result = '승리'
+        elif game.attacker_card > defender_card:
+            result = '패배'
+        else:
+            result = '무승부'
+
+    # 점수 변화(임시 변수, DB 저장X)
+    attacker = game.attacker.profile
+    defender = game.defender.profile
+    bet = game.bet_point
+
+    if result == '승리':
+        attacker.point += bet
+        defender.point -= bet
+    elif result == '패배':
+        attacker.point -= bet
+        defender.point += bet
+    # 무승부는 변화 없음
+
+    attacker.save()
+    defender.save()
+
+    # 게임 정보 저장
+    game.defender_card = defender_card
+    game.result = result
+    game.status = '종료'
+    game.save()
+    return result
 
 @login_required
 def game_detail(request, pk):
@@ -65,26 +114,8 @@ def game_detail(request, pk):
         if form.is_valid():
             try:
                 defender_card = int(form.cleaned_data['card'])
-                game.defender_card = defender_card
-
-                # 결과 판정
-                if game.card_rule == 'high':
-                    if game.attacker_card > defender_card:
-                        game.result = '승리'
-                    elif game.attacker_card < defender_card:
-                        game.result = '패배'
-                    else:
-                        game.result = '무승부'
-                else:  # low
-                    if game.attacker_card < defender_card:
-                        game.result = '승리'
-                    elif game.attacker_card > defender_card:
-                        game.result = '패배'
-                    else:
-                        game.result = '무승부'
-
-                game.status = '종료'
-                game.save()
+                # 함수 호출로 반격 처리
+                result = process_counter_attack(game, defender_card)
                 if session_key in request.session:
                     del request.session[session_key]
                 return redirect('game_detail', pk=game.pk)
@@ -96,10 +127,15 @@ def game_detail(request, pk):
         request.session[session_key] = card_choices
         form = CounterAttackForm(card_choices=card_choices)
 
+    attacker_point = getattr(game.attacker.profile, 'point', 0)
+    defender_point = getattr(game.defender.profile, 'point', 0)
+
     return render(request, 'games/detail.html', {
         'game': game,
         'user': request.user,
-        'counter_form': form
+        'counter_form': form,
+        'attacker_point': game.attacker_point_snapshot,
+        'defender_point': game.defender_point_snapshot
     })
 
 
@@ -107,16 +143,28 @@ def game_detail(request, pk):
 def ranking_page(request):
     users = User.objects.all()
     ranking = []
-    for user in users:
-        win_score = Game.objects.filter(attacker=user, result='승리').aggregate(s=Sum('attacker_card'))['s'] or 0
-        lose_score = Game.objects.filter(attacker=user, result='패배').aggregate(s=Sum('attacker_card'))['s'] or 0
-        win_score += Game.objects.filter(defender=user, result='승리').aggregate(s=Sum('defender_card'))['s'] or 0
-        lose_score += Game.objects.filter(defender=user, result='패배').aggregate(s=Sum('defender_card'))['s'] or 0
-        total = win_score - lose_score
-        ranking.append({'user': user, 'score': total})
-    ranking = sorted(ranking, key=lambda x: x['score'], reverse=True)
-    return render(request, 'games/ranking.html', {'ranking': ranking})
 
+    for user in users:
+        try:
+            point = user.profile.point
+        except:
+            point = 0
+
+        ranking.append({
+            'user': user,
+            'score': point  # score에 profile.point를 바로 씀
+        })
+
+    # 정렬 (포인트 기준)
+    ranking = sorted(ranking, key=lambda x: x['score'], reverse=True)
+
+    # 막대 height 계산
+    max_score = ranking[0]['score'] if ranking else 1
+    for r in ranking:
+        normalized = r['score'] / max_score if max_score else 0
+        r['height'] = int(80 + normalized * 140)  # 최소 80, 최대 220
+
+    return render(request, 'games/ranking.html', {'ranking': ranking})
 
 def custom_logout(request):
     logout(request)
@@ -137,13 +185,29 @@ class StartGameView(LoginRequiredMixin, View):
         if form.is_valid():
             card = int(form.cleaned_data['card'])
             opponent = form.cleaned_data['opponent']
+            bet_point = int(form.cleaned_data['bet_point'])
             rule = random.choice(['high', 'low'])
-            Game.objects.create(
-                attacker=request.user,
-                defender=opponent,
-                attacker_card=card,
-                status='진행중',
-                card_rule=rule
-            )
-            return redirect('game_list')
+
+        # 내 포인트 부족하면 예외 처리
+        if request.user.profile.point < bet_point:
+            form.add_error(None, '보유 포인트가 부족합니다.')
+            return render(request, 'games/start.html', {'form': form})
+
+        # 상대방도 베팅 받을 수 있는 포인트 있어야 함
+        if opponent.profile.point < bet_point:
+            form.add_error(None, f'상대방({opponent.username})의 포인트가 부족합니다.')
+            return render(request, 'games/start.html', {'form': form})
+
+        Game.objects.create(
+            attacker=request.user,
+            defender=opponent,
+            attacker_card=card,
+            status='진행중',
+            card_rule=rule,
+            bet_point=bet_point,
+            attacker_point_snapshot=request.user.profile.point,
+            defender_point_snapshot=opponent.profile.point
+        )
+        return redirect('game_list')
+        
         return render(request, 'games/start.html', {'form': form})
