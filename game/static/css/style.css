@@ -59,7 +59,6 @@ body {
     justify-content: flex-start;  /* 중앙에서 위쪽으로 */
     align-items: center;
     text-align: center;
-    padding-top: 200px;  /* 이 값으로 아래로 내림 */
 }
 
 /* 버튼 스타일 */
@@ -97,4 +96,92 @@ body {
     padding: 12px 0;
     font-size: 0.9rem;
     box-sizing: border-box;
+}
+
+/* 게임하기(공격 시작) 카드 스타일 */
+.start-card {
+    background: #6e3d8c;
+    color: #ffd369;
+    border-radius: 20px;
+    box-shadow: 4px 8px 16px rgba(0,0,0,0.18);
+    padding: 40px 50px 30px 50px;
+    margin-top: 60px;
+    display: inline-block;
+    min-width: 340px;
+    text-align: left;
+}
+.start-card label {
+    color: #ffd369;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.start-card input[type="radio"] {
+    margin-right: 8px;
+}
+.start-card select {
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+}
+.start-card button {
+    margin-top: 18px;
+    background: #ffd369;
+    color: #532d6d;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 24px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.10);
+}
+.start-card button:hover {
+    background: #fff3b0;
+}
+
+/* 전적 리스트 스타일 */
+.history-list {
+    margin-top: 40px;
+    width: 80%;
+    max-width: 900px;
+    background: #6e3d8c;
+    border-radius: 18px;
+    padding: 30px 40px 30px 40px;
+    color: #ffd369;
+    box-shadow: 4px 8px 16px rgba(0,0,0,0.13);
+}
+.history-list h2 {
+    color: #ffd369;
+    margin-bottom: 18px;
+}
+.history-list ul {
+    list-style: none;
+    padding: 0;
+}
+.history-list li {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #ffd36933;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.history-list li:last-child {
+    border-bottom: none;
+}
+.history-list .game-info-btn {
+    background: #ffd369;
+    color: #532d6d;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 16px;
+    font-weight: bold;
+    margin-left: 16px;
+    cursor: pointer;
+}
+.history-list .game-info-btn:hover {
+    background: #fff3b0;
 }
