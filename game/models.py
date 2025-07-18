@@ -3,12 +3,6 @@ from django.contrib.auth.models import User
 
 from django.contrib.auth.models import User
 
-# Create your models here.
-
-
-
-
-######## 테스트용 ########
 
 
 class Game(models.Model):
