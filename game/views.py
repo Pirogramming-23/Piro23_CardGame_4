@@ -36,6 +36,46 @@ def game_list(request):
     return render(request, 'games/list.html', {'games': games, 'user': user})
 
 
+def process_counter_attack(game, defender_card):
+    # 이미 반격한 게임 예외처리
+    if game.status != '반격대기':
+        raise Exception('이미 반격이 완료된 게임입니다.')
+
+    # 결과 판정
+    if game.card_rule == 'high':
+        if game.attacker_card > defender_card:
+            result = '승리'
+        elif game.attacker_card < defender_card:
+            result = '패배'
+        else:
+            result = '무승부'
+    else:  # low
+        if game.attacker_card < defender_card:
+            result = '승리'
+        elif game.attacker_card > defender_card:
+            result = '패배'
+        else:
+            result = '무승부'
+
+    # 점수 변화(임시 변수, DB 저장X)
+    attacker_score_change = 0
+    defender_score_change = 0
+    if result == '승리':
+        attacker_score_change = game.attacker_card
+        defender_score_change = -defender_card
+    elif result == '패배':
+        attacker_score_change = -game.attacker_card
+        defender_score_change = defender_card
+    # 무승부는 변화 없음
+
+    # 게임 정보 저장
+    game.defender_card = defender_card
+    game.result = result
+    game.status = '종료'
+    game.save()
+    return result, attacker_score_change, defender_score_change
+
+
 @login_required
 def game_detail(request, pk):
     try:
@@ -65,26 +105,8 @@ def game_detail(request, pk):
         if form.is_valid():
             try:
                 defender_card = int(form.cleaned_data['card'])
-                game.defender_card = defender_card
-
-                # 결과 판정
-                if game.card_rule == 'high':
-                    if game.attacker_card > defender_card:
-                        game.result = '승리'
-                    elif game.attacker_card < defender_card:
-                        game.result = '패배'
-                    else:
-                        game.result = '무승부'
-                else:  # low
-                    if game.attacker_card < defender_card:
-                        game.result = '승리'
-                    elif game.attacker_card > defender_card:
-                        game.result = '패배'
-                    else:
-                        game.result = '무승부'
-
-                game.status = '종료'
-                game.save()
+                # 함수 호출로 반격 처리
+                result, attacker_score_change, defender_score_change = process_counter_attack(game, defender_card)
                 if session_key in request.session:
                     del request.session[session_key]
                 return redirect('game_detail', pk=game.pk)

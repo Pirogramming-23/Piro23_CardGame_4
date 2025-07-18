@@ -1,13 +1,35 @@
+:root {
+    --primary-bg: #532d6d;
+    --primary-accent: #ffd369;
+    --primary-bg-active: #6e3d8c;
+    --primary-bg-hover: #fff3b0;
+    --gradient-start: #f89e68;
+    --gradient-end: #f6d284;
+    --white: #fff;
+    --black: #000;
+    /* 필요시 추가 색상 변수 선언 */
+}
+
 /* 기본 설정 */
+
+
 body {
     margin: 0;
     padding: 0;
     font-family: 'Noto Sans KR', sans-serif;
-    background: linear-gradient(#f89e68, #f6d284);
+    background: linear-gradient(var(--gradient-start), var(--gradient-end));
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none;
 }
 
 /* 상단 네비게이션 */
@@ -15,8 +37,8 @@ body {
 .top-nav {
     width: 100%;
     box-sizing: border-box;
-    background-color: #532d6d;
-    color: white;
+    background-color: var(--primary-bg);
+    color: var(--white);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -25,7 +47,7 @@ body {
 
 .navbar a,
 .top-nav a {
-    color: #ffd369;
+    color: var(--primary-accent);
     text-decoration: none;
     margin-left: 20px;
     font-weight: bold;
@@ -37,17 +59,18 @@ body {
 .logout-btn {
     background: none;
     border: none;
-    color: #ffd369;
+    color: var(--primary-accent);
     font-weight: bold;
     font-size: 1rem;
     cursor: pointer;
     padding: 0;
     margin-left: 20px;
     text-decoration: none;
+    transition: 0.3s;
 }
 
 .logout-btn:hover {
-    text-decoration: underline;
+    text-shadow: 1px 1px 1px #ffd369;
 }
 
 
@@ -64,8 +87,8 @@ body {
 /* 버튼 스타일 */
 .main-btn,
 .button-group .btn {
-    background-color: #532d6d;
-    color: #ffd369;
+    background-color: var(--primary-bg);
+    color: var(--primary-accent);
     padding: 12px 24px;
     margin: 10px;
     border-radius: 24px;
@@ -77,7 +100,7 @@ body {
 
 .main-btn:hover,
 .button-group .btn:hover {
-    background-color: #6e3d8c;
+    background-color: var(--primary-bg-active);
 }
 
 /* 로그인 정보 텍스트 */
@@ -90,8 +113,8 @@ body {
 .footer,
 .bottom-nav {
     width: 100%;
-    background-color: #532d6d;
-    color: white;
+    background-color: var(--primary-bg);
+    color: var(--white);
     text-align: center;
     padding: 12px 0;
     font-size: 0.9rem;
@@ -100,8 +123,8 @@ body {
 
 /* 게임하기(공격 시작) 카드 스타일 */
 .start-card {
-    background: #6e3d8c;
-    color: #ffd369;
+    background: var(--primary-bg-active);
+    color: var(--primary-accent);
     border-radius: 20px;
     box-shadow: 4px 8px 16px rgba(0,0,0,0.18);
     padding: 40px 50px 30px 50px;
@@ -111,7 +134,7 @@ body {
     text-align: left;
 }
 .start-card label {
-    color: #ffd369;
+    color: var(--primary-accent);
     font-weight: bold;
     font-size: 1.2rem;
 }
@@ -127,8 +150,8 @@ body {
 }
 .start-card button {
     margin-top: 18px;
-    background: #ffd369;
-    color: #532d6d;
+    background: var(--primary-accent);
+    color: var(--primary-bg);
     border: none;
     border-radius: 8px;
     padding: 8px 24px;
@@ -138,22 +161,21 @@ body {
     box-shadow: 2px 4px 8px rgba(0,0,0,0.10);
 }
 .start-card button:hover {
-    background: #fff3b0;
+    background: var(--primary-bg-hover);
 }
 
 /* 전적 리스트 스타일 */
 .history-list {
-    margin-top: 40px;
     width: 80%;
     max-width: 900px;
-    background: #6e3d8c;
+    background: var(--primary-bg-active);
     border-radius: 18px;
     padding: 30px 40px 30px 40px;
-    color: #ffd369;
+    color: var(--primary-accent);
     box-shadow: 4px 8px 16px rgba(0,0,0,0.13);
 }
 .history-list h2 {
-    color: #ffd369;
+    color: var(--primary-accent);
     margin-bottom: 18px;
 }
 .history-list ul {
@@ -173,8 +195,8 @@ body {
     border-bottom: none;
 }
 .history-list .game-info-btn {
-    background: #ffd369;
-    color: #532d6d;
+    background: var(--primary-accent);
+    color: var(--primary-bg);
     border: none;
     border-radius: 8px;
     padding: 4px 16px;
@@ -183,5 +205,131 @@ body {
     cursor: pointer;
 }
 .history-list .game-info-btn:hover {
-    background: #fff3b0;
+    background: var(--primary-bg-hover);
+}
+
+/* 게임 리스트 인라인 스타일 대체 */
+.game-time {
+    margin-right: 8px;
+    color: var(--primary-accent);
+    font-size: 0.95em;
+}
+.game-link {
+    color: var(--primary-accent);
+    font-weight: bold;
+    text-decoration: underline;
+}
+.game-status {
+    display: inline-block;
+    width: 180px;
+    text-align: center;
+}
+.attack-status {
+    /* 추가 스타일 필요시 */
+}
+.defend-status {
+    /* 추가 스타일 필요시 */
+}
+.result-status {
+    /* 추가 스타일 필요시 */
+}
+.inline-form {
+    display: inline;
+}
+
+/* detail.html 인라인 스타일 대체 */
+.detail-status-msg {
+    text-align: center;
+    margin-bottom: 18px;
+    font-size: 1.2rem;
+    color: var(--primary-accent);
+}
+.detail-cancel-btn {
+    margin-top: 10px;
+}
+.detail-counter-label {
+    font-size: 1.2rem;
+}
+.detail-vs-title {
+    margin-bottom: 10px;
+}
+.detail-rule-msg {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+.detail-card-info {
+    margin-bottom: 8px;
+}
+.detail-result-msg {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+.detail-score-msg {
+    margin-bottom: 10px;
+}
+
+/* ranking.html 스타일 */
+.ranking-card {
+    min-width: 420px;
+    text-align: center;
+}
+.ranking-title {
+    margin-bottom: 18px;
+    color: var(--primary-accent);
+}
+.ranking-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 24px;
+    height: 220px;
+    margin-bottom: 18px;
+}
+.ranking-bar {
+    background: #f6b26b;
+    border-radius: 12px 12px 0 0;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.1);
+}
+.ranking-bar-label {
+    color: var(--primary-bg);
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 10px;
+}
+.ranking-bar-score {
+    font-size: 1.1rem;
+}
+.ranking-bar-rank {
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-accent);
+    color: var(--primary-bg);
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.08);
+}
+.ranking-list-btn {
+    margin-top: 18px;
+}
+
+/* start.html 인라인 스타일 대체 */
+.start-defender-label {
+    margin-top: 18px;
+    display: block;
+    color: var(--primary-accent);
+    font-size: 1.1rem;
 }

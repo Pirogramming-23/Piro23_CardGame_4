@@ -7,30 +7,28 @@
     {% for game in games %}
     <li>
       <span>
+        <span class="game-time">
+          {{ game.created_at|time:"H:i" }}
+        </span>
         <a
           href="{% url 'game_detail' game.id %}"
-          style="color: #ffd369; font-weight: bold; text-decoration: underline"
->
+          class="game-link"
+        >
           {{ game.attacker }} VS {{ game.defender }}
         </a>
         {% if game.status == '진행중' and game.attacker == user %}
-        <span style="display: inline-block; width: 180px; text-align: center">진행 중 (내가 공격)</span>
-
-        <form method="post" style="display: inline">
+        <span class="game-status attack-status">진행 중 (내가 공격)</span>
+        <form method="post" class="inline-form">
           {% csrf_token %}
           <button type="submit" class="game-info-btn">게임 취소</button>
         </form>
-
-        
         {% elif game.status == '반격대기' or game.status == '진행중' and game.defender == user %}
-        <span style="display: inline-block; width: 180px; text-align: center">반격 대기 (내가 수비)</span>
-        <form method="get" action="{% url 'game_detail' game.id %}" style="display: inline">
+        <span class="game-status defend-status">반격 대기 (내가 수비)</span>
+        <form method="get" action="{% url 'game_detail' game.id %}" class="inline-form">
           <button type="submit" class="game-info-btn">반격하기</button>
         </form>
-
         {% elif game.status == '종료' %}
-        <span style="display: inline-block; width: 180px; text-align: center">
-
+        <span class="game-status result-status">
             결과: {% if user == game.attacker %} {% if game.result == '승리'%}👑승리👑
             {% elif game.result == '패배' %}😢패배😢 {% else %}무승부{% endif %} 
             {% else %} {% if game.result == '승리' %}😢패배😢{% elif game.result == '패배'%}👑승리👑{% else %}무승부{% endif %} {% endif %}
