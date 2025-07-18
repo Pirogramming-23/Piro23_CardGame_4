@@ -129,8 +129,8 @@ def game_detail(request, pk):
         'game': game,
         'user': request.user,
         'counter_form': form,
-        'attacker_point': attacker_point,
-        'defender_point': defender_point
+        'attacker_point': game.attacker_point_snapshot,
+        'defender_point': game.defender_point_snapshot
     })
 
 
@@ -199,7 +199,9 @@ class StartGameView(LoginRequiredMixin, View):
             attacker_card=card,
             status='진행중',
             card_rule=rule,
-            bet_point=bet_point
+            bet_point=bet_point,
+            attacker_point_snapshot=request.user.profile.point,
+            defender_point_snapshot=opponent.profile.point
         )
         return redirect('game_list')
         
