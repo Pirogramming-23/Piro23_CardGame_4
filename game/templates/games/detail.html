@@ -42,7 +42,8 @@
     {% else %} {% if game.result == '승리' %}😢패배😢{% elif game.result == '패배'%}👑승리👑{% else %}무승부{% endif %} {% endif %}
   </div>
   <div class="detail-score-msg">
-    점수: {{ game.attacker_card|add:game.defender_card }}
+    ({{ game.attacker.username }}: 💰{{ attacker_point }} /
+   {{ game.defender.username }}: 💰{{ defender_point }})
   </div>
   {% endif %}
   <a href="{% url 'game_list' %}" class="game-info-btn">전적목록</a>
