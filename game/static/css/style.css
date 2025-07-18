@@ -167,13 +167,17 @@ ul{
 
 /* 전적 리스트 스타일 */
 .history-list {
+    margin-top: 40px;
     width: 80%;
     max-width: 900px;
-    background: var(--primary-bg-active);
+    background: #6e3d8c;
     border-radius: 18px;
     padding: 30px 40px 30px 40px;
-    color: var(--primary-accent);
+    color: #ffd369;
     box-shadow: 4px 8px 16px rgba(0,0,0,0.13);
+    /* 스크롤 영역 높이 제한 */
+    max-height: 500px;
+    overflow: hidden;
 }
 .history-list h2 {
     color: var(--primary-accent);
@@ -182,6 +186,9 @@ ul{
 .history-list ul {
     list-style: none;
     padding: 0;
+    /* ul에 스크롤 적용 */
+    max-height: 400px;
+    overflow-y: auto;
 }
 .history-list li {
     font-size: 1.15rem;
@@ -400,7 +407,7 @@ ul{
     align-items: center;
     justify-content: center;
     font-size: 2rem;
-    color: #532d6d;
+    color: #000d63;
     margin-top: 6px;
     transition:
     transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
