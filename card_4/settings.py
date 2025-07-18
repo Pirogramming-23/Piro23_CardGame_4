@@ -138,7 +138,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # 또는 os.path.join(BASE_DIR, 'static')
+    BASE_DIR / 'game' / 'static',  # 또는 os.path.join(BASE_DIR, 'static')
 ]
 
 # Default primary key field type
