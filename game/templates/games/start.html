@@ -1,4 +1,21 @@
-{% extends 'games/base.html' %}
-{% block content %}
-    <h2>🎮 여기는 start 페이지입니다 (임시)</h2>
+{% extends 'games/base.html' %} {% block content %}
+<div class="start-card">
+  <form method="post">
+    {% csrf_token %}
+    <label>내가 고른 카드 :</label><br />
+    {{ form.card }}
+    <label
+      style="
+        margin-top: 18px;
+        display: block;
+        color: #ffd369;
+        font-size: 1.1rem;
+      "
+      >Defender:</label
+    >
+    {{ form.opponent }}
+    <br />
+    <button type="submit">Attack!</button>
+  </form>
+</div>
 {% endblock %}
