@@ -1,5 +1,7 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class GameStartForm(forms.Form):
     card = forms.ChoiceField(label='카드 선택', widget=forms.RadioSelect)
@@ -16,7 +18,7 @@ class GameStartForm(forms.Form):
             card_choices = sample(range(1, 11), 5)
         self.fields['card'].choices = [(c, str(c)) for c in card_choices]
 
-        # 유저 설정
+        # 상대 유저 목록 설정
         if user:
             self.fields['opponent'].queryset = User.objects.exclude(id=user.id)
         else:
