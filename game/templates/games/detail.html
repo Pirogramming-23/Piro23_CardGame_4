@@ -14,13 +14,18 @@
   <form method="post">
     {% csrf_token %}
     <label class="detail-counter-label">반격할 카드 :</label><br />
-    {{ counter_form.card }}
+    <div class="card-select-group">
+      {% for radio in counter_form.card %}
+      <label class="card-radio-label">
+        {{ radio.tag }}
+        <div class="card-shape">{{ radio.choice_label }}</div>
+      </label>
+      {% endfor %}
+    </div>
     <button type="submit">CounterAttack</button>
   </form>
   {% else %}
-  <h3 class="detail-vs-title">
-    {{ game.attacker }} VS {{ game.defender }}
-  </h3>
+  <h3 class="detail-vs-title">{{ game.attacker }} VS {{ game.defender }}</h3>
   <div class="detail-rule-msg">
     {% if game.card_rule == 'high' %} 숫자가 큰 사람이 이깁니다.<br />
     {% else %} 숫자가 작은 사람이 이깁니다.<br />
