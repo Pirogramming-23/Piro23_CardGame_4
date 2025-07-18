@@ -1,7 +1,7 @@
 {% extends 'games/base.html' %}
 
 {% block content %}
-<div class="start-card ranking-card">
+<div class="start-card ranking-card" >
   <h2 class="ranking-title">Piro 명예의 전당</h2>
   <div class="ranking-bar-container">
     {% for item in ranking|slice:':3' %}
@@ -15,7 +15,12 @@
       <div class="ranking-bar-rank">{{ forloop.counter }}</div>
     </div>
     {% endfor %}
-  </div>
-  <a href="{% url 'game_list' %}" class="game-info-btn ranking-list-btn">전적 목록</a>
+    </div>
+
+    <div class="ranking-btn-wrapper">
+      <a href="{% url 'game_list' %}" class="ranking-btn">전적 목록</a>
+    </div>
+    
 </div>
+
 {% endblock %}
